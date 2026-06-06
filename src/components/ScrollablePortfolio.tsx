@@ -4,13 +4,10 @@ import {
   Github, 
   Linkedin, 
   ExternalLink, 
-  Mail, 
-  Layers, 
-  Download, 
-  Sparkles 
+  Mail
 } from "lucide-react";
-import cyberAstronaut from "../assets/images/cyber_astronaut_1780708518597.png";
 import projectDashboard from "../assets/images/project_dashboard_1780708537353.png";
+import HeroSection from "./HeroSection";
 
 interface ScrollablePortfolioProps {
   playSound: (sound: string) => void;
@@ -126,87 +123,7 @@ export default function ScrollablePortfolio({
         </div>
       </header>
 
-      {/* Hero / Introduction Section */}
-      <section id="hero-section" className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center py-4 sm:py-8 md:py-12 border-b border-brand-cream-dark/30">
-        <div className="lg:col-span-7 space-y-4 sm:space-y-6 order-2 lg:order-1">
-          <div className="inline-flex items-center gap-2 border border-brand-cream/20 bg-brand-cream/5 px-3 py-1 text-[10px] sm:text-xs font-mono tracking-widest text-brand-cream">
-            <Sparkles className="w-3.5 h-3.5 text-brand-cream animate-pulse shrink-0" />
-            🚀 FULL-STACK WEB DEVELOPER
-          </div>
-          
-          <h1 className="font-display font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-brand-cream">
-            Hello, I'm <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cream via-amber-100 to-[#eedfc7] drop-shadow-sm">Sofoniyas Tekalegn</span>
-          </h1>
-          
-          <p className="font-sans font-light text-brand-cream-dim/90 text-sm sm:text-base leading-relaxed max-w-2xl responsive-copy text-left sm:text-justify">
-            Fullstack Developer and AI Engineer with hands-on experience across the entire stack — React, Next.js, TypeScript on the frontend, Python, Node.js, and Java on the backend. I work with MongoDB, PostgreSQL, Supabase, and Vector DBs to build fast, AI-ready systems — integrating LLMs and automation pipelines that replace manual processes with intelligent workflows. From Figma to deployment — clean code, thoughtful UX, real impact.
-          </p>
-
-          {/* Hero CTAs */}
-          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 pt-1 sm:pt-2">
-            <button
-              onClick={() => {
-                playSound("matrix");
-                const el = document.getElementById("projects-grid-anchor");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-brand-cream hover:bg-black text-black hover:text-brand-cream border border-brand-cream py-2.5 px-5 sm:px-6 font-mono text-[11px] sm:text-xs tracking-widest font-bold transition-all cursor-pointer shadow-md min-h-11"
-            >
-              <Layers className="w-4 h-4" />
-              VIEW PROJECTS
-            </button>
-
-            <button
-              onClick={() => { playSound("click"); setShowCvDossier(true); }}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 border border-brand-cream/40 hover:border-brand-cream text-[#eedfc7] hover:bg-brand-cream/5 py-2.5 px-5 sm:px-6 font-mono text-[11px] sm:text-xs tracking-widest transition-all cursor-pointer min-h-11"
-            >
-              <Download className="w-4 h-4 text-brand-cream" />
-              DOWNLOAD CV / RESUME
-            </button>
-
-            {/* Micro social row */}
-            <div className="w-full sm:w-auto flex items-center justify-center gap-4 border border-brand-cream-dark/50 bg-black/60 px-5 py-2.5 text-brand-cream-dim min-h-11">
-              <span className="font-mono text-[9px] tracking-widest uppercase font-semibold">LINKS:</span>
-              <a 
-                href="https://github.com/Sofoniyastekalegn" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="hover:text-brand-cream transition-colors cursor-pointer"
-              >
-                <Github className="w-4 h-4 hover:scale-110 transition-transform" />
-              </a>
-              <a 
-                href="https://www.linkedin.com/in/sofoniyas-tekalegn-962868287" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="hover:text-brand-cream transition-colors cursor-pointer"
-              >
-                <Linkedin className="w-4 h-4 hover:scale-110 transition-transform" />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Generated Cyber Astronaut Image block */}
-        <div className="lg:col-span-5 flex justify-center lg:justify-end order-1 lg:order-2">
-          <div className="relative group max-w-[220px] sm:max-w-xs md:max-w-sm w-full mx-auto lg:mx-0">
-            <div className="absolute -inset-1.5 bg-gradient-to-r from-brand-cream/20 to-amber-500/10 blur opacity-45 group-hover:opacity-80 transition duration-1000 group-hover:duration-200" />
-            <div className="absolute inset-0 bg-brand-cream-dark/30 border border-brand-cream/30" />
-            
-            <img 
-              src={cyberAstronaut} 
-              alt="Sofoniyas Tekalegn Cyber Astronaut Portrait"
-              referrerPolicy="no-referrer"
-              className="w-full h-auto object-cover relative z-10 border border-brand-cream/20 drop-shadow-2xl filter grayscale-[15%] group-hover:grayscale-0 transition-all duration-750" 
-            />
-
-            <div className="absolute bottom-2.5 left-2.5 z-20 bg-black/85 backdrop-blur-md px-3 py-1 text-[9px] font-mono tracking-widest text-[#eedfc7]/80 border border-brand-cream/20 uppercase font-bold">
-              SYS_AVATAR: SO_99
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection playSound={playSound} setShowCvDossier={setShowCvDossier} />
 
       {/* Stats Section Grid */}
       <section className="w-full max-w-7xl mx-auto py-8 sm:py-12 border-b border-brand-cream-dark/30">
