@@ -3,6 +3,10 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
+import dotenv from 'dotenv';
+import { mountContactRoute } from './contact-api.js';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +22,8 @@ if (!existsSync(indexPath)) {
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(express.json());
+mountContactRoute(app);
 app.use(express.static(distPath));
 
 app.get('*', (_req, res) => {

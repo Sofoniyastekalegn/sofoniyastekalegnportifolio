@@ -91,9 +91,12 @@ export default function App() {
   const [showCvDossier, setShowCvDossier] = useState(false);
   const [liveChatOpen, setLiveChatOpen] = useState(false);
   const [chatName, setChatName] = useState("");
+  const [chatEmail, setChatEmail] = useState("");
   const [chatSubject, setChatSubject] = useState("");
   const [chatMessage, setChatMessage] = useState("");
   const [chatSubmitted, setChatSubmitted] = useState(false);
+  const [chatSending, setChatSending] = useState(false);
+  const [chatError, setChatError] = useState("");
 
   // Download plain-text resume action builder
   const handleDownloadTextResume = () => {
@@ -1518,7 +1521,12 @@ LANGUAGES
                     </span>
                   </div>
                   <button
-                    onClick={() => { playSound("click"); setLiveChatOpen(false); setChatSubmitted(false); }}
+                    onClick={() => {
+                      playSound("click");
+                      setLiveChatOpen(false);
+                      setChatSubmitted(false);
+                      setChatError("");
+                    }}
                     className="text-brand-cream-dim hover:text-white font-mono text-[9px] cursor-pointer"
                   >
                     DISMISS [X]
@@ -1527,17 +1535,39 @@ LANGUAGES
 
                 {!chatSubmitted ? (
                   <form 
-                    onSubmit={(e) => {
+                    onSubmit={async (e) => {
                       e.preventDefault();
-                      setChatSubmitted(true);
+                      setChatSending(true);
+                      setChatError("");
                       playSound("click");
-                      window.open(
-                        `mailto:sofoniyastekalegn@gmail.com?subject=${encodeURIComponent(
-                          chatSubject || "Interactive Inquiry"
-                        )}&body=${encodeURIComponent(
-                          `Sender: ${chatName}\n\nMessage:\n${chatMessage}\n\n---\nSent via Sofoniyas Secure Terminal Portfolio Engine`
-                        )}`
-                      );
+
+                      try {
+                        const response = await fetch("/api/contact", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            name: chatName,
+                            email: chatEmail,
+                            subject: chatSubject,
+                            message: chatMessage,
+                          }),
+                        });
+
+                        const data = await response.json().catch(() => ({}));
+                        if (!response.ok) {
+                          throw new Error(data.error || "Failed to send message.");
+                        }
+
+                        setChatSubmitted(true);
+                        setChatName("");
+                        setChatEmail("");
+                        setChatSubject("");
+                        setChatMessage("");
+                      } catch (error) {
+                        setChatError(error instanceof Error ? error.message : "Failed to send message.");
+                      } finally {
+                        setChatSending(false);
+                      }
                     }}
                     className="space-y-3 font-mono text-[9px]"
                   >
@@ -1549,6 +1579,18 @@ LANGUAGES
                         value={chatName}
                         onChange={(e) => setChatName(e.target.value)}
                         placeholder="e.g. VISITOR_0029"
+                        className="w-full bg-black border border-brand-cream/20 hover:border-brand-cream/40 focus:border-brand-cream outline-none px-2 py-1.5 text-[#eedfc7]"
+                      />
+                    </div>
+
+                    <div>
+                      <span className="text-brand-cream-dim block mb-1 uppercase tracking-wider">YOUR EMAIL FOR REPLY ROUTING:</span>
+                      <input
+                        type="email"
+                        required
+                        value={chatEmail}
+                        onChange={(e) => setChatEmail(e.target.value)}
+                        placeholder="e.g. visitor@email.com"
                         className="w-full bg-black border border-brand-cream/20 hover:border-brand-cream/40 focus:border-brand-cream outline-none px-2 py-1.5 text-[#eedfc7]"
                       />
                     </div>
@@ -1578,15 +1620,22 @@ LANGUAGES
                     </div>
 
                     <div className="pt-1 text-[8px] text-brand-cream-dim/50 leading-normal">
-                      <span>* Committing will automatically format and fire native OS email dispatch routing.</span>
+                      <span>* Committing will transmit this message directly to sofoniyastekalegn@gmail.com.</span>
                     </div>
+
+                    {chatError && (
+                      <div className="text-red-400 text-[8.5px] leading-relaxed border border-red-500/30 bg-red-500/10 px-2 py-1.5">
+                        {chatError}
+                      </div>
+                    )}
 
                     <button
                       type="submit"
-                      className="w-full bg-brand-cream hover:bg-black text-black hover:text-brand-cream border border-brand-cream text-center font-bold py-2 tracking-widest uppercase transition-all flex items-center justify-center gap-1.5 cursor-pointer text-[9px]"
+                      disabled={chatSending}
+                      className="w-full bg-brand-cream hover:bg-black text-black hover:text-brand-cream border border-brand-cream text-center font-bold py-2 tracking-widest uppercase transition-all flex items-center justify-center gap-1.5 cursor-pointer text-[9px] disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <Send className="w-3 h-3" />
-                      TRANSMIT ENCRYPTED FEED
+                      {chatSending ? "TRANSMITTING..." : "TRANSMIT ENCRYPTED FEED"}
                     </button>
                   </form>
                 ) : (
@@ -1597,18 +1646,23 @@ LANGUAGES
                     <div className="space-y-1">
                       <span className="text-green-400 block font-bold uppercase tracking-wider">DATA FEED DISPATCHED</span>
                       <p className="text-[#eedfc7]/70 text-[8.5px] leading-relaxed px-2">
-                        System successfully spawned mail routing for <strong className="text-brand-cream">sofoniyastekalegn@gmail.com</strong>.
+                        Your message was delivered to <strong className="text-brand-cream">sofoniyastekalegn@gmail.com</strong>.
                       </p>
                     </div>
                     <div className="pt-2 flex gap-2">
                       <button
-                        onClick={() => { playSound("click"); setChatSubmitted(false); }}
+                        onClick={() => { playSound("click"); setChatSubmitted(false); setChatError(""); }}
                         className="flex-1 border border-brand-cream/20 text-brand-cream-dim/80 hover:border-brand-cream hover:text-brand-cream py-1 text-[8.5px] cursor-pointer"
                       >
                         RESET NODE
                       </button>
                       <button
-                        onClick={() => { playSound("click"); setLiveChatOpen(false); setChatSubmitted(false); }}
+                        onClick={() => {
+                          playSound("click");
+                          setLiveChatOpen(false);
+                          setChatSubmitted(false);
+                          setChatError("");
+                        }}
                         className="flex-1 bg-[#eedfc7]/10 text-brand-cream py-1 text-[8.5px] hover:bg-[#eedfc7]/20 border border-brand-cream/20 cursor-pointer"
                       >
                         EXIT UNITS
