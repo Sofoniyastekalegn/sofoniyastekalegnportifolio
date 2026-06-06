@@ -38,6 +38,7 @@ import {
 import { PORTFOLIO_SLIDES, PortfolioSlide } from "./data";
 import InteractiveBackground from "./components/InteractiveBackground";
 import ScrollablePortfolio from "./components/ScrollablePortfolio";
+import { WEB3FORMS_ACCESS_KEY, WEB3FORMS_ENDPOINT } from "./config/web3forms";
 
 // Extract clean YouTube Video ID from any watch link, short, embed URL or complete iframe snippet
 function getYouTubeId(url: string): string | null {
@@ -1542,20 +1543,33 @@ LANGUAGES
                       playSound("click");
 
                       try {
-                        const response = await fetch("/api/contact", {
+                        const formData = new FormData();
+                        formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+                        formData.append("name", chatName);
+                        formData.append("email", chatEmail);
+                        formData.append("subject", chatSubject || "Portfolio Inquiry");
+                        formData.append(
+                          "message",
+                          [
+                            `Sender: ${chatName}`,
+                            `Reply-To: ${chatEmail}`,
+                            "",
+                            "Message:",
+                            chatMessage,
+                            "",
+                            "---",
+                            "Sent via Sofoniyas Secure Terminal Portfolio Engine",
+                          ].join("\n")
+                        );
+
+                        const response = await fetch(WEB3FORMS_ENDPOINT, {
                           method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify({
-                            name: chatName,
-                            email: chatEmail,
-                            subject: chatSubject,
-                            message: chatMessage,
-                          }),
+                          body: formData,
                         });
 
                         const data = await response.json().catch(() => ({}));
-                        if (!response.ok) {
-                          throw new Error(data.error || "Failed to send message.");
+                        if (!data.success) {
+                          throw new Error(data.message || "Failed to send message.");
                         }
 
                         setChatSubmitted(true);
