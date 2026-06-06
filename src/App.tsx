@@ -503,7 +503,7 @@ LANGUAGES
       <div id="hud-vignette" className="absolute inset-0 pointer-events-none hud-scanlines z-10 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_60%,rgba(0,0,0,0.85)_100%)]" />
 
       {/* HUD System Overlay Guidelines for aesthetic cybergrid structure */}
-      <div id="hud-gimbal" className="absolute inset-0 pointer-events-none border border-brand-cream/10 m-2 sm:m-6 md:m-10 z-10">
+      <div id="hud-gimbal" className="absolute inset-0 pointer-events-none border border-brand-cream/10 m-1.5 sm:m-4 md:m-6 lg:m-10 z-10">
         {/* Gimbal cross lines */}
         <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-brand-cream/5" />
         <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-brand-cream/5" />
@@ -532,20 +532,20 @@ LANGUAGES
         />
       ) : (
         /* Main Container optimized for layout overflows and scrolling on short heights */
-        <div id="ui-stage" className="relative w-full h-full p-4 sm:p-10 md:p-16 lg:p-24 flex flex-col justify-between z-20 overflow-y-auto lg:overflow-hidden select-none">
+        <div id="ui-stage" className="relative w-full h-full px-3 py-3 sm:px-8 sm:py-8 md:px-12 md:py-12 lg:px-24 lg:py-16 flex flex-col justify-between z-20 overflow-y-auto lg:overflow-hidden select-none">
         
         {/* Header Ribbon Row / Top Controls */}
-        <header id="top-bar" className="flex justify-between items-start w-full relative z-30">
+        <header id="top-bar" className="flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-start w-full relative z-30">
           
           {/* Logo / Developer Identity Info */}
-          <div className="flex flex-col gap-1.5 cursor-pointer" onClick={() => handleJump(0)}>
+          <div className="flex flex-col gap-1.5 cursor-pointer min-w-0" onClick={() => handleJump(0)}>
             <div className="flex items-center gap-2">
-              <div className="w-2.5 h-2.5 bg-brand-cream animate-pulse rounded-none" />
-              <div className="font-display font-black text-sm tracking-[0.25em] text-[#eedfc7] uppercase">
+              <div className="w-2.5 h-2.5 bg-brand-cream animate-pulse rounded-none shrink-0" />
+              <div className="font-display font-black text-xs sm:text-sm tracking-[0.15em] sm:tracking-[0.25em] text-[#eedfc7] uppercase truncate">
                 SOFONIYAS // CORE
               </div>
             </div>
-            <div className="font-mono text-[10px] tracking-widest text-brand-cream-dim/60">
+            <div className="font-mono text-[9px] sm:text-[10px] tracking-widest text-brand-cream-dim/60 hidden sm:block">
               CRAFTED IN ATHENS WITH REACT &amp; TAILWIND
             </div>
           </div>
@@ -560,26 +560,26 @@ LANGUAGES
           </div>
 
           {/* Standard Navigation Menu and Top Right Selector exactly mirroring image */}
-          <div className="flex items-center gap-4 sm:gap-8">
+          <div className="flex flex-wrap items-center justify-between lg:justify-end gap-2 sm:gap-4 lg:gap-8 w-full lg:w-auto">
             
             {/* HUD dual mode switch button */}
-            <div className="bg-black/90 border border-brand-cream/30 p-0.5 flex divide-x divide-brand-cream/20 font-mono text-[9px] sm:text-[10px] tracking-widest leading-none">
+            <div className="bg-black/90 border border-brand-cream/30 p-0.5 flex divide-x divide-brand-cream/20 font-mono text-[8px] sm:text-[10px] tracking-widest leading-none">
               <button 
                 onClick={() => { playSound("click"); setViewMode('portfolio'); }}
-                className="px-2 py-1 text-brand-cream-dim hover:text-white transition-all cursor-pointer font-bold"
+                className="px-2 sm:px-2.5 py-1.5 text-brand-cream-dim hover:text-white transition-all cursor-pointer font-bold min-h-9"
               >
                 WEBSITE CORE
               </button>
               <button 
                 onClick={() => { playSound("click"); setViewMode('hud'); }}
-                className="px-2 py-1 bg-brand-cream text-black font-extrabold transition-all cursor-pointer"
+                className="px-2 sm:px-2.5 py-1.5 bg-brand-cream text-black font-extrabold transition-all cursor-pointer min-h-9"
               >
                 HUD Deck
               </button>
             </div>
 
             {/* Slide Index text & Next Button exactly as screenshot: "1/26 NEXT PRODUCT" */}
-            <div className="flex items-center gap-6 select-none font-mono text-xs md:text-sm tracking-[0.2em] font-medium text-brand-cream">
+            <div className="flex items-center gap-3 sm:gap-6 select-none font-mono text-[11px] sm:text-xs md:text-sm tracking-[0.15em] sm:tracking-[0.2em] font-medium text-brand-cream">
               <span className="text-brand-cream-dim/55">
                 {(currentIndex + 1).toString().padStart(2, "0")}/26
               </span>
@@ -587,10 +587,11 @@ LANGUAGES
                 id="next-trigger"
                 onClick={handleNext}
                 onMouseEnter={() => playSound("hover")}
-                className="hover:text-white transition-all group flex items-center gap-2 uppercase cursor-pointer"
+                className="hover:text-white transition-all group flex items-center gap-1.5 sm:gap-2 uppercase cursor-pointer min-h-9"
                 title="Shift to next section"
               >
-                NEXT PRODUCT
+                <span className="hidden sm:inline">NEXT PRODUCT</span>
+                <span className="sm:hidden">NEXT</span>
                 <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1.5" />
               </button>
             </div>
@@ -598,13 +599,13 @@ LANGUAGES
         </header>
 
         {/* Middle Board / Content Workspace layout */}
-        <main id="workspace-grid" className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto relative z-20">
+        <main id="workspace-grid" className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center my-4 md:my-auto relative z-20">
           
           {/* Left Block: Dynamic Big Futuristic Typography Titles */}
-          <div id="identity-block" className="lg:col-span-6 flex flex-col justify-center items-start">
+          <div id="identity-block" className="md:col-span-7 lg:col-span-6 flex flex-col justify-center items-start">
             
             {/* Title with staggered sliding and exit animations */}
-            <h1 className="font-display font-extrabold text-[1.5rem] xs:text-[1.8rem] sm:text-[3rem] md:text-[3.9rem] lg:text-[4.7rem] xl:text-[5.3rem] leading-[1.0] text-left uppercase tracking-tight select-none">
+            <h1 className="font-display font-extrabold text-[1.65rem] sm:text-[2.5rem] md:text-[3.2rem] lg:text-[4.2rem] xl:text-[5rem] leading-[1.05] text-left uppercase tracking-tight select-none break-words">
               <AnimatePresence mode="popLayout">
                 <motion.div
                   key={currentSlide.id + "-title"}
@@ -639,7 +640,7 @@ LANGUAGES
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.35, delay: 0.1 }}
-                  className="font-sans text-brand-cream-dim/85 text-xs md:text-[14px] lg:text-[15px] leading-relaxed max-w-sm sm:max-w-md md:max-w-lg select-text text-justify"
+                  className="font-sans text-brand-cream-dim/85 text-xs sm:text-sm md:text-[14px] lg:text-[15px] leading-relaxed max-w-full sm:max-w-md md:max-w-lg select-text responsive-copy text-left sm:text-justify"
                 >
                   {currentSlide.description}
                 </motion.p>
@@ -682,7 +683,7 @@ LANGUAGES
             </div>
 
             {/* Backdrop Tech Control Console (Cyberpunk HUD styled panel) */}
-            <div className="mt-6 border border-brand-cream/10 bg-black/65 p-3.5 w-full max-w-sm sm:max-w-md backdrop-blur-md relative z-30">
+            <div className="mt-5 sm:mt-6 border border-brand-cream/10 bg-black/65 p-3 sm:p-3.5 w-full max-w-full sm:max-w-md backdrop-blur-md relative z-30">
               <div className="flex items-center justify-between mb-2.5 border-b border-brand-cream-dark/30 pb-1.5">
                 <div className="flex items-center gap-1.5">
                   <Video className="w-3.5 h-3.5 text-brand-cream animate-pulse" />
@@ -738,7 +739,7 @@ LANGUAGES
                   {/* Preset feeds selection */}
                   <div className="flex flex-col gap-1">
                     <span className="text-[#eedfc7]/50 uppercase tracking-wide">Preset Feeds:</span>
-                    <div className="grid grid-cols-4 gap-1.5">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
                       {[
                         { name: "CH_01", desc: "Sci-Fi Space Terminal (YT)", url: "https://www.youtube.com/watch?v=GYdNzgA2GIY" },
                         { name: "CH_02", desc: "Cyber Code Terminal (YT)", url: "https://www.youtube.com/watch?v=-s5KrjH7aQ0" },
@@ -763,7 +764,7 @@ LANGUAGES
 
                   {/* File Upload Selector and Text Link Link */}
                   <div className="flex flex-col gap-2 pt-1">
-                    <div className="flex gap-2">
+                    <div className="flex flex-col sm:flex-row gap-2">
                       <input
                         type="file"
                         ref={fileInputRef}
@@ -827,8 +828,8 @@ LANGUAGES
           <div className="hidden lg:col-span-2 xl:col-span-3 lg:block" />
 
           {/* Right Block: Dynamic Technical Specifications Grid EXACTLY as screenshot */}
-          <div id="tech-specs-block" className="lg:col-span-4 flex flex-col justify-end mt-6 lg:mt-0">
-            <div className="w-full max-w-md ml-auto bg-black/40 backdrop-blur-md p-6 border border-brand-cream/5 rounded-none shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
+          <div id="tech-specs-block" className="md:col-span-5 lg:col-span-4 flex flex-col justify-end mt-2 md:mt-0 w-full">
+            <div className="w-full max-w-md md:ml-auto bg-black/40 backdrop-blur-md p-4 sm:p-5 md:p-6 border border-brand-cream/5 rounded-none shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
               <div className="flex justify-between items-center mb-6">
                 <span className="font-mono text-[10px] md:text-xs tracking-[0.25em] font-bold text-brand-cream-dim/60 uppercase">
                   TECHNICAL SPECS
@@ -842,7 +843,7 @@ LANGUAGES
               <div className="flex flex-col font-sans select-none">
                 
                 {/* Spec row 1 (Optics - exactly 18 characters value) */}
-                <div className="border-b border-brand-cream-dark/30 py-3.5 flex justify-between items-baseline gap-4 group hover:bg-brand-cream/3 transition-colors px-1">
+                <div className="border-b border-brand-cream-dark/30 py-3 sm:py-3.5 flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-4 group hover:bg-brand-cream/3 transition-colors px-1">
                   <span className="text-[#eedfc7]/70 font-sans text-xs md:text-sm tracking-widest">
                     {currentSlide.spec1Label}
                   </span>
@@ -852,7 +853,7 @@ LANGUAGES
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0 }}
-                      className="font-mono text-xs md:text-sm text-[#eedfc7] text-right tracking-tight text-glow-beige"
+                      className="font-mono text-xs md:text-sm text-[#eedfc7] sm:text-right tracking-tight text-glow-beige break-words"
                     >
                       {currentSlide.spec1Value}
                     </motion.span>
@@ -860,7 +861,7 @@ LANGUAGES
                 </div>
 
                 {/* Spec row 2 (Logic - exactly 18 characters value) */}
-                <div className="border-b border-brand-cream-dark/30 py-3.5 flex justify-between items-baseline gap-4 group hover:bg-brand-cream/3 transition-colors px-1">
+                <div className="border-b border-brand-cream-dark/30 py-3 sm:py-3.5 flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-4 group hover:bg-brand-cream/3 transition-colors px-1">
                   <span className="text-[#eedfc7]/70 font-sans text-xs md:text-sm tracking-widest">
                     {currentSlide.spec2Label}
                   </span>
@@ -870,7 +871,7 @@ LANGUAGES
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0 }}
-                      className="font-mono text-xs md:text-sm text-[#eedfc7] text-right tracking-tight text-glow-beige"
+                      className="font-mono text-xs md:text-sm text-[#eedfc7] sm:text-right tracking-tight text-glow-beige break-words"
                     >
                       {currentSlide.spec2Value}
                     </motion.span>
@@ -878,7 +879,7 @@ LANGUAGES
                 </div>
 
                 {/* Spec row 3 (Motion - exactly 17 characters value) */}
-                <div className="border-b border-brand-cream-dark/30 py-3.5 flex justify-between items-baseline gap-4 group hover:bg-brand-cream/3 transition-colors px-1">
+                <div className="border-b border-brand-cream-dark/30 py-3 sm:py-3.5 flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-4 group hover:bg-brand-cream/3 transition-colors px-1">
                   <span className="text-[#eedfc7]/70 font-sans text-xs md:text-sm tracking-widest">
                     {currentSlide.spec3Label}
                   </span>
@@ -888,7 +889,7 @@ LANGUAGES
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0 }}
-                      className="font-mono text-xs md:text-sm text-[#eedfc7] text-right tracking-tight text-glow-beige"
+                      className="font-mono text-xs md:text-sm text-[#eedfc7] sm:text-right tracking-tight text-glow-beige break-words"
                     >
                       {currentSlide.spec3Value}
                     </motion.span>
@@ -896,7 +897,7 @@ LANGUAGES
                 </div>
 
                 {/* Spec row 4 (Build - exactly 24 characters value) */}
-                <div className="border-b border-brand-cream-dark/30 py-3.5 flex justify-between items-baseline gap-4 group hover:bg-brand-cream/3 transition-colors px-1">
+                <div className="border-b border-brand-cream-dark/30 py-3 sm:py-3.5 flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-4 group hover:bg-brand-cream/3 transition-colors px-1">
                   <span className="text-[#eedfc7]/70 font-sans text-xs md:text-sm tracking-widest">
                     {currentSlide.spec4Label}
                   </span>
@@ -906,7 +907,7 @@ LANGUAGES
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0 }}
-                      className="font-mono text-xs md:text-sm text-[#eedfc7] text-right tracking-tight text-glow-beige"
+                      className="font-mono text-xs md:text-sm text-[#eedfc7] sm:text-right tracking-tight text-glow-beige break-words"
                     >
                       {currentSlide.spec4Value}
                     </motion.span>
@@ -927,43 +928,46 @@ LANGUAGES
         </main>
 
         {/* Footer Ribbon & Auxiliary HUD controls */}
-        <footer id="bottom-ribbon" className="flex flex-col sm:flex-row justify-between items-center gap-4 relative z-30 pt-6 border-t border-brand-cream/10">
+        <footer id="bottom-ribbon" className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4 relative z-30 pt-4 sm:pt-6 border-t border-brand-cream/10">
           
           {/* Quick HUD Navigation & External Social Terminals */}
-          <div className="flex flex-wrap items-center gap-2 select-none text-[11px] font-mono tracking-widest text-[#eedfc7]">
+          <div className="flex flex-wrap items-center gap-2 select-none text-[10px] sm:text-[11px] font-mono tracking-widest text-[#eedfc7]">
             <button
               onClick={() => setShowIndexGrid(!showIndexGrid)}
               onMouseEnter={() => playSound("hover")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 border hover:bg-brand-cream hover:text-black transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 border hover:bg-brand-cream hover:text-black transition-all cursor-pointer min-h-10 ${
                 showIndexGrid ? "bg-brand-cream text-black border-brand-cream" : "border-brand-cream/20"
               }`}
             >
               <Grid className="w-3.5 h-3.5" />
-              MATRIX PICKER (G)
+              <span className="hidden sm:inline">MATRIX PICKER (G)</span>
+              <span className="sm:hidden">MATRIX</span>
             </button>
 
             <button
               onClick={() => setShowMetrics(!showMetrics)}
               onMouseEnter={() => playSound("hover")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 border hover:bg-brand-cream hover:text-black transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 border hover:bg-brand-cream hover:text-black transition-all cursor-pointer min-h-10 ${
                 showMetrics ? "bg-brand-cream text-black border-brand-cream" : "border-brand-cream/20"
               }`}
               title="Verify developer character specifications"
             >
               <CheckCircle2 className="w-3.5 h-3.5" />
-              STRICT LENGTH CHECKER
+              <span className="hidden md:inline">STRICT LENGTH CHECKER</span>
+              <span className="md:hidden">CHECKER</span>
             </button>
 
             <button
               onClick={() => { playSound("click"); setShowCvDossier(true); }}
               onMouseEnter={() => playSound("hover")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 border hover:bg-brand-cream hover:text-black transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 border hover:bg-brand-cream hover:text-black transition-all cursor-pointer min-h-10 ${
                 showCvDossier ? "bg-brand-cream text-black border-brand-cream" : "border-brand-cream/20"
               }`}
               title="Open full interactive CV dossier archive"
             >
               <FileText className="w-3.5 h-3.5" />
-              CV ARCHIVE (SECURE)
+              <span className="hidden sm:inline">CV ARCHIVE (SECURE)</span>
+              <span className="sm:hidden">CV</span>
             </button>
 
             <span className="text-brand-cream-dim/20 mx-1 hidden sm:inline">|</span>
@@ -996,7 +1000,7 @@ LANGUAGES
           </div>
 
           {/* System sound & interactive triggers */}
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-between lg:justify-end gap-4 sm:gap-6">
             
             {/* Audio Toggle button */}
             <button
@@ -1034,9 +1038,9 @@ LANGUAGES
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/95 z-50 flex items-center justify-center p-12 overflow-y-auto"
+              className="absolute inset-0 bg-black/95 z-50 flex items-start sm:items-center justify-center p-3 sm:p-8 md:p-12 overflow-y-auto"
             >
-              <div className="w-full max-w-3xl border border-brand-cream/20 bg-black p-8 relative">
+              <div className="w-full max-w-3xl border border-brand-cream/20 bg-black p-4 sm:p-6 md:p-8 relative my-2 sm:my-0">
                 <button
                   onClick={() => setShowIndexGrid(false)}
                   className="absolute top-6 right-6 font-mono text-xs tracking-widest text-brand-cream-dim hover:text-brand-cream cursor-pointer"
@@ -1052,7 +1056,7 @@ LANGUAGES
                   Select index node of Sofoniyas's professional development series. Each slide strictly contains identical character parameters to ensure absolute visual uniformity of structure.
                 </p>
 
-                <div className="grid grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-3">
+                <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
                   {PORTFOLIO_SLIDES.map((slide, idx) => {
                     const isActive = idx === currentIndex;
                     return (
@@ -1088,7 +1092,7 @@ LANGUAGES
               initial={{ opacity: 0, y: 150 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 150 }}
-              className="absolute bottom-24 left-1/2 -translate-x-1/2 w-full max-w-xl border border-brand-cream bg-black/95 z-40 p-6 shadow-[0_30px_70px_rgba(0,0,0,0.9)]"
+              className="absolute bottom-20 sm:bottom-24 left-3 right-3 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 w-auto sm:w-full max-w-xl border border-brand-cream bg-black/95 z-40 p-4 sm:p-6 shadow-[0_30px_70px_rgba(0,0,0,0.9)] max-h-[55vh] overflow-y-auto"
             >
               <div className="flex justify-between items-start mb-4 border-b border-brand-cream-dark/30 pb-3">
                 <div>
@@ -1107,7 +1111,7 @@ LANGUAGES
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 font-mono text-[11px] leading-relaxed">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-mono text-[10px] sm:text-[11px] leading-relaxed">
                 <div className="border border-brand-cream-dark/30 p-2.5 bg-black/50">
                   <div className="font-bold border-b border-brand-cream-dark/35 pb-1 mb-1.5 text-brand-cream text-[10px] tracking-widest">
                     TITLE LINE METRICS
@@ -1189,20 +1193,20 @@ LANGUAGES
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
-              className="absolute inset-0 bg-black/95 z-50 flex items-center justify-center p-4 sm:p-10 lg:p-16 overflow-y-auto print:hidden select-text"
+              className="absolute inset-0 bg-black/95 z-50 flex items-start sm:items-center justify-center p-3 sm:p-6 md:p-10 lg:p-16 overflow-y-auto print:hidden select-text"
             >
-              <div className="w-full max-w-5xl border border-brand-cream bg-black/90 p-6 sm:p-8 relative shadow-[0_0_50px_rgba(238,223,199,0.15)] backdrop-blur-md">
+              <div className="w-full max-w-5xl border border-brand-cream bg-black/90 p-4 sm:p-6 md:p-8 relative shadow-[0_0_50px_rgba(238,223,199,0.15)] backdrop-blur-md my-2 sm:my-4">
                 
                 {/* Close Button top-right */}
                 <button
                   onClick={() => { playSound("click"); setShowCvDossier(false); }}
-                  className="absolute top-6 right-6 font-mono text-xs tracking-widest text-brand-cream bg-black/50 border border-brand-cream/10 hover:border-brand-cream px-3 py-1.5 transition-all cursor-pointer"
+                  className="absolute top-3 right-3 sm:top-6 sm:right-6 font-mono text-[10px] sm:text-xs tracking-widest text-brand-cream bg-black/50 border border-brand-cream/10 hover:border-brand-cream px-2.5 sm:px-3 py-1.5 transition-all cursor-pointer"
                 >
                   CLOSE DOSSIER [X]
                 </button>
 
                 {/* Dashboard Header Bar */}
-                <div className="border-b border-brand-cream-dark pb-4 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div className="border-b border-brand-cream-dark pb-4 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pr-24 sm:pr-28">
                   <div>
                     <span className="font-mono text-[10px] tracking-[0.2em] text-[#eedfc7]/40 uppercase block mb-1">SECURE PORTAL DATASTREAM</span>
                     <h3 className="font-display font-black text-xl tracking-[0.15em] text-brand-cream">
@@ -1210,17 +1214,17 @@ LANGUAGES
                     </h3>
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
                     <button
                       onClick={() => { playSound("click"); window.print(); }}
-                      className="flex items-center gap-2 font-mono text-[10px] tracking-widest bg-brand-cream text-black px-4 py-2 border border-brand-cream hover:bg-black hover:text-brand-cream transition-all cursor-pointer font-bold"
+                      className="w-full sm:w-auto flex items-center justify-center gap-2 font-mono text-[9px] sm:text-[10px] tracking-widest bg-brand-cream text-black px-3 sm:px-4 py-2 border border-brand-cream hover:bg-black hover:text-brand-cream transition-all cursor-pointer font-bold min-h-10"
                     >
                       <Download className="w-3.5 h-3.5" />
                       EXPORT PRINT-READY PDF
                     </button>
                     <button
                       onClick={handleDownloadTextResume}
-                      className="flex items-center gap-2 font-mono text-[10px] tracking-widest border border-brand-cream/30 hover:border-brand-cream text-[#eedfc7] px-4 py-2 transition-all cursor-pointer"
+                      className="w-full sm:w-auto flex items-center justify-center gap-2 font-mono text-[9px] sm:text-[10px] tracking-widest border border-brand-cream/30 hover:border-brand-cream text-[#eedfc7] px-3 sm:px-4 py-2 transition-all cursor-pointer min-h-10"
                     >
                       <FileText className="w-3.5 h-3.5 text-brand-cream" />
                       DOWNLOAD PLAIN TEXT (.TXT)
@@ -1289,7 +1293,7 @@ LANGUAGES
                         {/* Wozena */}
                         <div className="border-l border-brand-cream/30 pl-4 py-0.5 space-y-1 relative">
                           <div className="absolute w-1.5 h-1.5 bg-brand-cream left-[-3.5px] top-1.5" />
-                          <div className="flex justify-between items-start text-[11px] font-mono">
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 text-[11px] font-mono">
                             <strong className="text-[#eedfc7]">BACKEND ENGINEER</strong>
                             <span className="text-brand-cream-dim/60 font-medium font-sans">Apr 2026 – PRESENT // REMOTE</span>
                           </div>
@@ -1304,7 +1308,7 @@ LANGUAGES
                         {/* Youth Print */}
                         <div className="border-l border-brand-cream/30 pl-4 py-0.5 space-y-1 relative">
                           <div className="absolute w-1.5 h-1.5 bg-brand-cream left-[-3.5px] top-1.5" />
-                          <div className="flex justify-between items-start text-[11px] font-mono">
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 text-[11px] font-mono">
                             <strong className="text-[#eedfc7]">SOFTWARE INFRASTRUCTURE &amp; FRONT-END DEV</strong>
                             <span className="text-brand-cream-dim/60 font-medium font-sans">Jul 2024 – PRESENT // ETHIOPIA</span>
                           </div>
@@ -1318,7 +1322,7 @@ LANGUAGES
                         {/* Metbel */}
                         <div className="border-l border-brand-cream/30 pl-4 py-0.5 space-y-1 relative">
                           <div className="absolute w-1.5 h-1.5 bg-brand-cream left-[-3.5px] top-1.5" />
-                          <div className="flex justify-between items-start text-[11px] font-mono">
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 text-[11px] font-mono">
                             <strong className="text-[#eedfc7]">FULL-STACK DEVELOPER (CONTRACT)</strong>
                             <span className="text-brand-cream-dim/60 font-medium font-sans">May 2025 // ADDIS ABABA</span>
                           </div>
@@ -1332,7 +1336,7 @@ LANGUAGES
                         {/* Kodastropi */}
                         <div className="border-l border-brand-cream/30 pl-4 py-0.5 space-y-1 relative">
                           <div className="absolute w-1.5 h-1.5 bg-brand-cream left-[-3.5px] top-1.5" />
-                          <div className="flex justify-between items-start text-[11px] font-mono">
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 text-[11px] font-mono">
                             <strong className="text-[#eedfc7]">WEB DEVELOPER INTERN</strong>
                             <span className="text-brand-cream-dim/60 font-medium font-sans">Aug – Oct 2025 // ADDIS ABABA</span>
                           </div>
@@ -1485,7 +1489,7 @@ LANGUAGES
         </div>
 
         {/* Floating Cyber Email Live Chat Widget */}
-        <div id="floating-chat-container" className="fixed bottom-4 sm:bottom-6 md:bottom-10 right-4 sm:right-6 md:right-10 z-[100] print:hidden">
+        <div id="floating-chat-container" className="fixed bottom-3 sm:bottom-6 md:bottom-10 right-3 sm:right-6 md:right-10 left-3 sm:left-auto z-[100] print:hidden max-w-[calc(100vw-1.5rem)] sm:max-w-none">
           <AnimatePresence>
             {!liveChatOpen ? (
               <motion.button
@@ -1511,7 +1515,7 @@ LANGUAGES
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 30, scale: 0.95 }}
-                className="w-[300px] sm:w-[350px] bg-black border border-brand-cream p-4 shadow-[0_20px_60px_rgba(0,0,0,0.95)] backdrop-blur-md relative"
+                className="w-full sm:w-[350px] bg-black border border-brand-cream p-3 sm:p-4 shadow-[0_20px_60px_rgba(0,0,0,0.95)] backdrop-blur-md relative ml-auto"
               >
                 {/* Micro Header */}
                 <div className="flex justify-between items-center border-b border-brand-cream-dark pb-2 mb-3">

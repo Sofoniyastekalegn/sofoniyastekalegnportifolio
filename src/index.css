@@ -23,6 +23,33 @@ html, body, #root {
   height: 100%;
   overflow: hidden;
   user-select: none;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Portfolio scroll surfaces */
+#scrollable-portfolio-stage {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* Better tap targets on touch devices */
+@media (max-width: 1024px) {
+  button,
+  a,
+  input,
+  textarea {
+    touch-action: manipulation;
+  }
+}
+
+/* Mobile-friendly readable text blocks */
+@media (max-width: 639px) {
+  .responsive-copy {
+    text-align: left !important;
+    hyphens: auto;
+  }
 }
 
 /* Soft scanlines overlay for high-tech HUD feel */

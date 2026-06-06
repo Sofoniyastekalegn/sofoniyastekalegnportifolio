@@ -32,36 +32,69 @@ export default function ScrollablePortfolio({
   return (
     <div 
       id="scrollable-portfolio-stage" 
-      className="absolute inset-0 w-full h-full overflow-y-auto scroll-smooth z-20 font-sans p-4 sm:p-10 md:p-16 lg:p-20 select-text"
+      className="absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden scroll-smooth z-20 font-sans px-3 py-3 sm:px-6 sm:py-8 md:px-12 md:py-12 lg:px-20 lg:py-16 select-text"
     >
       
       {/* Header Sticky Navigation Panel */}
-      <header className="flex justify-between items-center w-full max-w-7xl mx-auto py-5 border-b border-brand-cream/15 mb-10 relative z-30">
-        <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 bg-brand-cream animate-pulse rounded-none" />
-          <span className="font-display font-black text-xs sm:text-sm tracking-[0.2em] text-[#eedfc7] uppercase">
-            SOFONIYAS TEKALEGN // CORE
-          </span>
-        </div>
+      <header className="sticky top-0 z-40 -mx-3 px-3 sm:-mx-6 sm:px-6 md:-mx-12 md:px-12 lg:-mx-20 lg:px-20 py-3 sm:py-4 mb-6 sm:mb-10 bg-black/90 backdrop-blur-md border-b border-brand-cream/15">
+        <div className="flex flex-col gap-3 max-w-7xl mx-auto">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-2.5 h-2.5 bg-brand-cream animate-pulse rounded-none shrink-0" />
+              <span className="font-display font-black text-[10px] sm:text-xs md:text-sm tracking-[0.12em] sm:tracking-[0.2em] text-[#eedfc7] uppercase truncate">
+                SOFONIYAS TEKALEGN // CORE
+              </span>
+            </div>
 
-        {/* Dual Mode Pilot Switcher */}
-        <div className="flex bg-black/85 border border-brand-cream/30 p-0.5 divide-x divide-brand-cream/20 shadow-lg backdrop-blur-md rounded-none">
-          <button 
-            onClick={() => { playSound("click"); setViewMode("portfolio"); }}
-            className="px-3 py-1 font-mono text-[9px] sm:text-[10px] tracking-widest transition-all cursor-pointer bg-brand-cream text-black font-extrabold"
-          >
-            WEBSITE CORE
-          </button>
-          <button 
-            onClick={() => { playSound("click"); setViewMode("hud"); }}
-            className="px-3 py-1 font-mono text-[9px] sm:text-[10px] tracking-widest transition-all text-brand-cream-dim hover:text-white cursor-pointer"
-          >
-            CYBER HUD (26 DECK)
-          </button>
-        </div>
+            <div className="flex md:hidden items-center gap-2 shrink-0">
+              <a 
+                href="https://github.com/Sofoniyastekalegn" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                onMouseEnter={() => playSound("matrix")}
+                className="text-[#eedfc7]/70 hover:text-brand-cream transition-colors cursor-pointer p-1"
+                title="GitHub Profile"
+              >
+                <Github className="w-4 h-4" />
+              </a>
+              <a 
+                href="https://www.linkedin.com/in/sofoniyas-tekalegn-962868287" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                onMouseEnter={() => playSound("matrix")}
+                className="text-[#eedfc7]/70 hover:text-brand-cream transition-colors cursor-pointer p-1"
+                title="LinkedIn network"
+              >
+                <Linkedin className="w-4 h-4" />
+              </a>
+              <button
+                onClick={() => { playSound("click"); setShowCvDossier(true); }}
+                className="font-mono text-[8px] sm:text-[9px] tracking-widest border border-brand-cream hover:bg-brand-cream hover:text-black py-1 px-2 sm:px-3 transition-all cursor-pointer uppercase font-bold"
+              >
+                CV
+              </button>
+            </div>
+          </div>
 
-        {/* Contacts column */}
-        <div className="hidden md:flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            {/* Dual Mode Pilot Switcher */}
+            <div className="flex w-full sm:w-auto bg-black/85 border border-brand-cream/30 p-0.5 divide-x divide-brand-cream/20 shadow-lg backdrop-blur-md rounded-none">
+              <button 
+                onClick={() => { playSound("click"); setViewMode("portfolio"); }}
+                className="flex-1 sm:flex-none px-2 sm:px-3 py-1.5 font-mono text-[8px] sm:text-[10px] tracking-widest transition-all cursor-pointer bg-brand-cream text-black font-extrabold text-center"
+              >
+                WEBSITE CORE
+              </button>
+              <button 
+                onClick={() => { playSound("click"); setViewMode("hud"); }}
+                className="flex-1 sm:flex-none px-2 sm:px-3 py-1.5 font-mono text-[8px] sm:text-[10px] tracking-widest transition-all text-brand-cream-dim hover:text-white cursor-pointer text-center"
+              >
+                CYBER HUD (26)
+              </button>
+            </div>
+
+            {/* Contacts column */}
+            <div className="hidden md:flex items-center gap-4">
           <a 
             href="https://github.com/Sofoniyastekalegn" 
             target="_blank" 
@@ -88,35 +121,37 @@ export default function ScrollablePortfolio({
           >
             DOSSIER CV
           </button>
+            </div>
+          </div>
         </div>
       </header>
 
       {/* Hero / Introduction Section */}
-      <section id="hero-section" className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-6 sm:py-12 border-b border-brand-cream-dark/30">
-        <div className="lg:col-span-7 space-y-6">
-          <div className="inline-flex items-center gap-2 border border-brand-cream/20 bg-brand-cream/5 px-3 py-1 text-xs font-mono tracking-widest text-brand-cream">
-            <Sparkles className="w-3.5 h-3.5 text-brand-cream animate-pulse" />
+      <section id="hero-section" className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center py-4 sm:py-8 md:py-12 border-b border-brand-cream-dark/30">
+        <div className="lg:col-span-7 space-y-4 sm:space-y-6 order-2 lg:order-1">
+          <div className="inline-flex items-center gap-2 border border-brand-cream/20 bg-brand-cream/5 px-3 py-1 text-[10px] sm:text-xs font-mono tracking-widest text-brand-cream">
+            <Sparkles className="w-3.5 h-3.5 text-brand-cream animate-pulse shrink-0" />
             🚀 FULL-STACK WEB DEVELOPER
           </div>
           
-          <h1 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none text-brand-cream">
+          <h1 className="font-display font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-brand-cream">
             Hello, I'm <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cream via-amber-100 to-[#eedfc7] drop-shadow-sm">Sofoniyas Tekalegn</span>
           </h1>
           
-          <p className="font-sans font-light text-brand-cream-dim/90 text-sm sm:text-base leading-relaxed max-w-2xl text-justify">
+          <p className="font-sans font-light text-brand-cream-dim/90 text-sm sm:text-base leading-relaxed max-w-2xl responsive-copy text-left sm:text-justify">
             Fullstack Developer and AI Engineer with hands-on experience across the entire stack — React, Next.js, TypeScript on the frontend, Python, Node.js, and Java on the backend. I work with MongoDB, PostgreSQL, Supabase, and Vector DBs to build fast, AI-ready systems — integrating LLMs and automation pipelines that replace manual processes with intelligent workflows. From Figma to deployment — clean code, thoughtful UX, real impact.
           </p>
 
           {/* Hero CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 pt-2">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 pt-1 sm:pt-2">
             <button
               onClick={() => {
                 playSound("matrix");
                 const el = document.getElementById("projects-grid-anchor");
                 if (el) el.scrollIntoView({ behavior: "smooth" });
               }}
-              className="flex items-center justify-center gap-2 bg-brand-cream hover:bg-black text-black hover:text-brand-cream border border-brand-cream py-2.5 px-6 font-mono text-xs tracking-widest font-bold transition-all cursor-pointer shadow-md"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-brand-cream hover:bg-black text-black hover:text-brand-cream border border-brand-cream py-2.5 px-5 sm:px-6 font-mono text-[11px] sm:text-xs tracking-widest font-bold transition-all cursor-pointer shadow-md min-h-11"
             >
               <Layers className="w-4 h-4" />
               VIEW PROJECTS
@@ -124,14 +159,14 @@ export default function ScrollablePortfolio({
 
             <button
               onClick={() => { playSound("click"); setShowCvDossier(true); }}
-              className="flex items-center justify-center gap-2 border border-brand-cream/40 hover:border-brand-cream text-[#eedfc7] hover:bg-brand-cream/5 py-2.5 px-6 font-mono text-xs tracking-widest transition-all cursor-pointer"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 border border-brand-cream/40 hover:border-brand-cream text-[#eedfc7] hover:bg-brand-cream/5 py-2.5 px-5 sm:px-6 font-mono text-[11px] sm:text-xs tracking-widest transition-all cursor-pointer min-h-11"
             >
               <Download className="w-4 h-4 text-brand-cream" />
               DOWNLOAD CV / RESUME
             </button>
 
             {/* Micro social row */}
-            <div className="flex items-center justify-center gap-4 border border-brand-cream-dark/50 bg-black/60 px-5 py-2.5 text-brand-cream-dim">
+            <div className="w-full sm:w-auto flex items-center justify-center gap-4 border border-brand-cream-dark/50 bg-black/60 px-5 py-2.5 text-brand-cream-dim min-h-11">
               <span className="font-mono text-[9px] tracking-widest uppercase font-semibold">LINKS:</span>
               <a 
                 href="https://github.com/Sofoniyastekalegn" 
@@ -154,8 +189,8 @@ export default function ScrollablePortfolio({
         </div>
 
         {/* Generated Cyber Astronaut Image block */}
-        <div className="lg:col-span-5 flex justify-center lg:justify-end">
-          <div className="relative group max-w-xs sm:max-w-sm w-full">
+        <div className="lg:col-span-5 flex justify-center lg:justify-end order-1 lg:order-2">
+          <div className="relative group max-w-[220px] sm:max-w-xs md:max-w-sm w-full mx-auto lg:mx-0">
             <div className="absolute -inset-1.5 bg-gradient-to-r from-brand-cream/20 to-amber-500/10 blur opacity-45 group-hover:opacity-80 transition duration-1000 group-hover:duration-200" />
             <div className="absolute inset-0 bg-brand-cream-dark/30 border border-brand-cream/30" />
             
@@ -174,25 +209,25 @@ export default function ScrollablePortfolio({
       </section>
 
       {/* Stats Section Grid */}
-      <section className="w-full max-w-7xl mx-auto py-12 border-b border-brand-cream-dark/30">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <section className="w-full max-w-7xl mx-auto py-8 sm:py-12 border-b border-brand-cream-dark/30">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {[
             { val: "5", suffix: "+", title: "YEARS EXPERIENCE", desc: "Across web & AI spaces" },
             { val: "25", suffix: "+", title: "PROJECTS COMPLETED", desc: "Enterprise & production modules" },
             { val: "8", suffix: "+", title: "TECH STACKS", desc: "Frontend, databases & integrations" },
             { val: "12", suffix: "+", title: "HAPPY CLIENTS", desc: "Operational impact achieved" }
           ].map((stat, i) => (
-            <div key={i} className="border border-brand-cream-dark/40 bg-black/50 p-6 flex flex-col justify-center items-center text-center shadow-lg relative group overflow-hidden">
+            <div key={i} className="border border-brand-cream-dark/40 bg-black/50 p-3 sm:p-4 md:p-6 flex flex-col justify-center items-center text-center shadow-lg relative group overflow-hidden min-h-[120px] sm:min-h-[140px]">
               <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-brand-cream/40 animate-pulse" />
               <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-brand-cream/40 animate-pulse" />
               
-              <span className="font-display font-black text-4xl sm:text-5xl text-brand-cream tracking-tight block">
-                {stat.val}<span className="text-amber-300 font-sans text-2xl font-light">{stat.suffix}</span>
+              <span className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-brand-cream tracking-tight block">
+                {stat.val}<span className="text-amber-300 font-sans text-xl sm:text-2xl font-light">{stat.suffix}</span>
               </span>
-              <span className="font-mono text-[9px] sm:text-[10px] tracking-widest uppercase text-[#eedfc7] mt-3 block font-bold">
+              <span className="font-mono text-[8px] sm:text-[9px] md:text-[10px] tracking-widest uppercase text-[#eedfc7] mt-2 sm:mt-3 block font-bold leading-snug">
                 {stat.title}
               </span>
-              <p className="font-sans text-[11px] text-brand-cream-dim/70 mt-1 block">
+              <p className="font-sans text-[10px] sm:text-[11px] text-brand-cream-dim/70 mt-1 block leading-snug">
                 {stat.desc}
               </p>
             </div>
@@ -201,14 +236,14 @@ export default function ScrollablePortfolio({
       </section>
 
       {/* About Us & Journey Section with scroll-triggered zoom-in photo and slide down text */}
-      <section className="w-full max-w-7xl mx-auto py-16 border-b border-brand-cream-dark/30 relative">
+      <section className="w-full max-w-7xl mx-auto py-10 sm:py-14 md:py-16 border-b border-brand-cream-dark/30 relative">
         <div id="about-us-anchor" />
         
         <motion.div 
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.1 }}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center"
         >
           {/* TEXT COL: Fades In from Above */}
           <motion.div 
@@ -225,7 +260,7 @@ export default function ScrollablePortfolio({
               </h2>
             </div>
 
-            <p className="font-sans font-light text-brand-cream-dim/95 text-sm leading-relaxed text-justify">
+            <p className="font-sans font-light text-brand-cream-dim/95 text-sm leading-relaxed responsive-copy text-left sm:text-justify">
               From humble beginnings to mastering modern frameworks and technologies, my journey has been shaped by both academic rigor and hands-on experience. I've traversed both the academic landscape and practical deployments to bridge complex system logic with human impact.
             </p>
 
@@ -256,7 +291,7 @@ export default function ScrollablePortfolio({
               <h3 className="font-display font-bold text-lg text-brand-cream uppercase tracking-wider">
                 Vision &amp; Mission
               </h3>
-              <p className="font-sans font-light text-brand-cream-dim/95 text-sm leading-relaxed text-justify">
+              <p className="font-sans font-light text-brand-cream-dim/95 text-sm leading-relaxed responsive-copy text-left sm:text-justify">
                 I build web platforms that solve real business problems. Whether it's enhancing e-commerce experiences, automating backend operational workflows, or improving access to educational content platforms, I strive to build software with structural integrity and clean product experiences.
               </p>
               <div className="border-l-2 border-brand-cream/40 pl-4 py-1 italic text-brand-cream-dim text-sm max-w-xl">
@@ -300,7 +335,7 @@ export default function ScrollablePortfolio({
           </h2>
         </div>
 
-        <div className="relative border-l border-brand-cream/25 pl-6 sm:pl-10 max-w-4xl mx-auto space-y-12">
+        <div className="relative border-l border-brand-cream/25 pl-4 sm:pl-6 md:pl-10 max-w-4xl mx-auto space-y-8 sm:space-y-12">
           {[
             { year: "2019", title: "BEGINNING THE JOURNEY", desc: "Started learning web development through online platforms, mastering HTML5, CSS3, grid frameworks, and basic JavaScript." },
             { year: "2011", title: "FIRST PROFESSIONAL ROLE", desc: "Joined dynamic development teams to engineer e-commerce solutions, responsive architectures, and client systems." },
@@ -309,9 +344,9 @@ export default function ScrollablePortfolio({
             { year: "2026 - PRESENT", title: "AIWAVEAGENCY AGENT DESIGNS", desc: "Scaling automated operations using voice AI agents, Retell AI, Vapi, LangChain models, and high efficiency n8n and Zapier integration pipelines." }
           ].map((node, idx) => (
             <div key={idx} className="relative group select-text">
-              <div className="absolute w-3 h-3 bg-brand-cream border border-black rounded-none left-[-31px] sm:left-[-46px] top-1.5 group-hover:scale-125 transition-transform" />
+              <div className="absolute w-3 h-3 bg-brand-cream border border-black rounded-none left-[-25px] sm:left-[-31px] md:left-[-46px] top-1.5 group-hover:scale-125 transition-transform" />
               
-              <div className="border border-brand-cream-dark/30 bg-black/40 p-5 hover:border-brand-cream/40 hover:bg-black/80 transition-all">
+              <div className="border border-brand-cream-dark/30 bg-black/40 p-4 sm:p-5 hover:border-brand-cream/40 hover:bg-black/80 transition-all">
                 <span className="inline-block font-mono text-xs text-black bg-brand-cream px-2 py-0.5 font-extrabold tracking-wider mb-2">
                   {node.year}
                 </span>
@@ -340,7 +375,7 @@ export default function ScrollablePortfolio({
         </div>
 
         {/* Tab Selectors */}
-        <div className="flex justify-center gap-2 mb-8">
+        <div className="flex flex-wrap justify-center gap-2 mb-6 sm:mb-8 px-1">
           {[
             { id: "frontend" as const, label: "FRONTEND SKILLS" },
             { id: "backend" as const, label: "BACKEND SKILLS" },
@@ -349,7 +384,7 @@ export default function ScrollablePortfolio({
             <button
               key={tab.id}
               onClick={() => { playSound("click"); setActiveSkillTab(tab.id); }}
-              className={`font-mono text-[9px] sm:text-[10px] tracking-widest px-4 py-2 border transition-all cursor-pointer uppercase ${
+              className={`font-mono text-[8px] sm:text-[9px] md:text-[10px] tracking-widest px-3 sm:px-4 py-2 border transition-all cursor-pointer uppercase min-h-10 ${
                 activeSkillTab === tab.id 
                   ? "bg-brand-cream text-black font-extrabold border-brand-cream" 
                   : "border-brand-cream-dark/35 text-brand-cream-dim/80 hover:border-brand-cream/40"
@@ -371,7 +406,7 @@ export default function ScrollablePortfolio({
             { name: "HTML5 / CSS3 Layouts & Accessibility", pct: 95 }
           ].map((skill, i) => (
             <div key={i} className="space-y-1.5 select-text">
-              <div className="flex justify-between font-mono text-[10.5px] text-brand-cream-dim">
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 font-mono text-[10px] sm:text-[10.5px] text-brand-cream-dim">
                 <span>{skill.name}</span>
                 <span className="font-bold text-brand-cream">{skill.pct}%</span>
               </div>
@@ -393,7 +428,7 @@ export default function ScrollablePortfolio({
             { name: "AI Voice Agents (Vapi / Retell AI / LangChain)", pct: 85 }
           ].map((skill, i) => (
             <div key={i} className="space-y-1.5 select-text">
-              <div className="flex justify-between font-mono text-[10.5px] text-brand-cream-dim">
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 font-mono text-[10px] sm:text-[10.5px] text-brand-cream-dim">
                 <span>{skill.name}</span>
                 <span className="font-bold text-brand-cream">{skill.pct}%</span>
               </div>
@@ -415,7 +450,7 @@ export default function ScrollablePortfolio({
             { name: "n8n Workflow Automation & Zapier Webhooks", pct: 90 }
           ].map((skill, i) => (
             <div key={i} className="space-y-1.5 select-text">
-              <div className="flex justify-between font-mono text-[10.5px] text-brand-cream-dim">
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 font-mono text-[10px] sm:text-[10.5px] text-brand-cream-dim">
                 <span>{skill.name}</span>
                 <span className="font-bold text-brand-cream">{skill.pct}%</span>
               </div>
@@ -444,7 +479,7 @@ export default function ScrollablePortfolio({
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
           {[
             {
               title: "AI Voice Agent / AI Wave Agency",
@@ -489,7 +524,7 @@ export default function ScrollablePortfolio({
               target="_blank"
               rel="noopener noreferrer"
               onMouseEnter={() => playSound("matrix")}
-              className="border border-brand-cream-dark/30 bg-black/40 p-6 flex flex-col justify-between hover:border-brand-cream hover:bg-black/90 transition-all group overflow-hidden select-text relative cursor-pointer"
+              className="border border-brand-cream-dark/30 bg-black/40 p-4 sm:p-5 md:p-6 flex flex-col justify-between hover:border-brand-cream hover:bg-black/90 transition-all group overflow-hidden select-text relative cursor-pointer min-h-[260px] sm:min-h-[280px]"
             >
               <div className="space-y-4">
                 <div className="flex justify-between items-start border-b border-brand-cream-dark/20 pb-3">
@@ -521,13 +556,13 @@ export default function ScrollablePortfolio({
       </section>
 
       {/* Footer Element with Secure Comms live mailer launching */}
-      <footer className="w-full max-w-7xl mx-auto pt-16 pb-12 border-t border-brand-cream-dark/30 flex flex-col sm:flex-row justify-between items-center gap-6 font-mono text-[10px] text-brand-cream-dim/50 tracking-widest">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 bg-brand-cream animate-ping" />
-          <span>SOFONIYAS TEKALEGN © 2026 // ALL SYSTEM PARAMETERS COMMITTED</span>
+      <footer className="w-full max-w-7xl mx-auto pt-10 sm:pt-14 md:pt-16 pb-8 sm:pb-10 md:pb-12 border-t border-brand-cream-dark/30 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 font-mono text-[9px] sm:text-[10px] text-brand-cream-dim/50 tracking-widest text-center sm:text-left">
+        <div className="flex items-center gap-2 max-w-full">
+          <div className="w-2 h-2 bg-brand-cream animate-ping shrink-0" />
+          <span className="leading-relaxed">SOFONIYAS TEKALEGN © 2026 // ALL SYSTEM PARAMETERS COMMITTED</span>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-4">
           <span className="text-brand-cream-dim/60">SYS: PORTFOLIO_STABLE</span>
           <span>//</span>
           <button 
