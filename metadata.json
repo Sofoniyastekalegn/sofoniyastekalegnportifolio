@@ -1,0 +1,6 @@
+{
+  "name": "Sofoniyas Portfolio",
+  "description": "An interactive digital series and personal portfolio inspired by high-end neural interfaces.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
