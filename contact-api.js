@@ -1,20 +1,120 @@
-import nodemailer from 'nodemailer';
-
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'sofoniyastekalegn@gmail.com';
 
-function createTransporter() {
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
+function normalizeEnv(value) {
+  if (!value) return '';
+  return String(value).trim().replace(/^["']|["']$/g, '');
+}
 
-  if (!user || !pass) {
-    return null;
+function normalizePassword(value) {
+  return normalizeEnv(value).replace(/\s/g, '');
+}
+
+function mapDeliveryError(error) {
+  const raw = error instanceof Error ? error.message : String(error);
+  const lower = raw.toLowerCase();
+
+  if (lower.includes('invalid login') || lower.includes('authentication') || lower.includes('535')) {
+    return 'Email login failed on the server. Use a Gmail App Password with no spaces, or switch to WEB3FORMS_ACCESS_KEY in Hostinger env vars.';
   }
 
-  return nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: Number(process.env.SMTP_PORT || 587),
-    secure: process.env.SMTP_SECURE === 'true',
+  if (lower.includes('web3forms')) {
+    return raw;
+  }
+
+  if (lower.includes('not configured')) {
+    return raw;
+  }
+
+  return 'Could not send your message right now. Please try again in a moment.';
+}
+
+async function sendViaWeb3Forms({ name, email, subject, message }) {
+  const accessKey = normalizeEnv(process.env.WEB3FORMS_ACCESS_KEY);
+  if (!accessKey) {
+    throw new Error('Email service is not configured yet. Please try again later.');
+  }
+
+  const response = await fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({
+      access_key: accessKey,
+      subject: `[Portfolio] ${subject}`,
+      from_name: name,
+      name,
+      email,
+      message: [
+        `Sender: ${name}`,
+        `Reply-To: ${email}`,
+        '',
+        'Message:',
+        message,
+        '',
+        '---',
+        'Sent via Sofoniyas Secure Terminal Portfolio Engine',
+      ].join('\n'),
+    }),
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || !data.success) {
+    throw new Error(data.message || 'Web3Forms delivery failed.');
+  }
+}
+
+async function sendViaSmtp({ name, email, subject, message }) {
+  const nodemailer = await import('nodemailer');
+
+  const user = normalizeEnv(process.env.SMTP_USER);
+  const pass = normalizePassword(process.env.SMTP_PASS);
+
+  if (!user || !pass) {
+    throw new Error('Email service is not configured yet. Please try again later.');
+  }
+
+  const configuredPort = normalizeEnv(process.env.SMTP_PORT);
+  const port = configuredPort ? Number(configuredPort) : 465;
+  const secure = port === 465;
+
+  const transporter = nodemailer.default.createTransport({
+    host: normalizeEnv(process.env.SMTP_HOST) || 'smtp.gmail.com',
+    port,
+    secure,
     auth: { user, pass },
+    tls: {
+      minVersion: 'TLSv1.2',
+      rejectUnauthorized: true,
+    },
+  });
+
+  const textBody = [
+    `Sender: ${name}`,
+    email ? `Reply-To: ${email}` : null,
+    '',
+    'Message:',
+    message,
+    '',
+    '---',
+    'Sent via Sofoniyas Secure Terminal Portfolio Engine',
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  await transporter.sendMail({
+    from: `"Portfolio Contact" <${user}>`,
+    to: CONTACT_EMAIL,
+    replyTo: email || undefined,
+    subject: `[Portfolio] ${subject}`,
+    text: textBody,
+    html: `
+      <p><strong>Sender:</strong> ${escapeHtml(name)}</p>
+      ${email ? `<p><strong>Reply-To:</strong> ${escapeHtml(email)}</p>` : ''}
+      <p><strong>Subject:</strong> ${escapeHtml(subject)}</p>
+      <hr />
+      <p>${escapeHtml(message).replace(/\n/g, '<br />')}</p>
+      <hr />
+      <p><em>Sent via Sofoniyas Secure Terminal Portfolio Engine</em></p>
+    `,
   });
 }
 
@@ -28,44 +128,27 @@ export async function sendContactEmail({ name, email, subject, message }) {
     throw new Error('Name, subject, and message are required.');
   }
 
-  if (trimmedEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+  if (!trimmedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
     throw new Error('Please enter a valid email address.');
   }
 
-  const transporter = createTransporter();
-  if (!transporter) {
-    throw new Error('Email service is not configured yet. Please try again later.');
+  const payload = {
+    name: trimmedName,
+    email: trimmedEmail,
+    subject: trimmedSubject,
+    message: trimmedMessage,
+  };
+
+  try {
+    if (normalizeEnv(process.env.WEB3FORMS_ACCESS_KEY)) {
+      await sendViaWeb3Forms(payload);
+      return;
+    }
+
+    await sendViaSmtp(payload);
+  } catch (error) {
+    throw new Error(mapDeliveryError(error));
   }
-
-  const textBody = [
-    `Sender: ${trimmedName}`,
-    trimmedEmail ? `Reply-To: ${trimmedEmail}` : null,
-    '',
-    'Message:',
-    trimmedMessage,
-    '',
-    '---',
-    'Sent via Sofoniyas Secure Terminal Portfolio Engine',
-  ]
-    .filter(Boolean)
-    .join('\n');
-
-  await transporter.sendMail({
-    from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
-    to: CONTACT_EMAIL,
-    replyTo: trimmedEmail || undefined,
-    subject: `[Portfolio] ${trimmedSubject}`,
-    text: textBody,
-    html: `
-      <p><strong>Sender:</strong> ${escapeHtml(trimmedName)}</p>
-      ${trimmedEmail ? `<p><strong>Reply-To:</strong> ${escapeHtml(trimmedEmail)}</p>` : ''}
-      <p><strong>Subject:</strong> ${escapeHtml(trimmedSubject)}</p>
-      <hr />
-      <p>${escapeHtml(trimmedMessage).replace(/\n/g, '<br />')}</p>
-      <hr />
-      <p><em>Sent via Sofoniyas Secure Terminal Portfolio Engine</em></p>
-    `,
-  });
 }
 
 function escapeHtml(value) {
