@@ -9,6 +9,8 @@ import {
   Download, 
   Sparkles 
 } from "lucide-react";
+import cyberAstronaut from "../assets/images/cyber_astronaut_1780708518597.png";
+import projectDashboard from "../assets/images/project_dashboard_1780708537353.png";
 
 interface ScrollablePortfolioProps {
   playSound: (sound: string) => void;
@@ -158,7 +160,7 @@ export default function ScrollablePortfolio({
             <div className="absolute inset-0 bg-brand-cream-dark/30 border border-brand-cream/30" />
             
             <img 
-              src="/src/assets/images/cyber_astronaut_1780708518597.png" 
+              src={cyberAstronaut} 
               alt="Sofoniyas Tekalegn Cyber Astronaut Portrait"
               referrerPolicy="no-referrer"
               className="w-full h-auto object-cover relative z-10 border border-brand-cream/20 drop-shadow-2xl filter grayscale-[15%] group-hover:grayscale-0 transition-all duration-750" 
@@ -275,7 +277,7 @@ export default function ScrollablePortfolio({
               <div className="absolute inset-0 bg-radial-vignette opacity-50 z-10 pointer-events-none" />
               
               <img 
-                src="/src/assets/images/project_dashboard_1780708537353.png" 
+                src={projectDashboard} 
                 alt="Sofoniyas's Web Infrastructure Dashboard Preview"
                 referrerPolicy="no-referrer"
                 className="w-full h-auto object-cover relative select-none border border-brand-cream/10 grayscale-[35%] hover:grayscale-0 transition-all duration-500"
